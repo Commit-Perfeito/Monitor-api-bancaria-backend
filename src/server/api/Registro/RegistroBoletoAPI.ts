@@ -1,4 +1,3 @@
-import { PositiveCodeRequest } from '../../shared/enums/PositiveCodeRequest';
 import { api } from '../api';
 import { ApiBodyInterface } from '../interfaces/ApiBodyInterface';
 import { CedenteInterface } from '../interfaces/CedenteInterface';

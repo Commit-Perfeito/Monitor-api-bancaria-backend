@@ -1,45 +1,36 @@
 import { PositiveCodeRequest } from '../../../shared/enums/PositiveCodeRequest';
-import { ConvertResponseStatus } from '../../../shared/services/ConvertResponseStatus';
-import { getHttpStatusText } from '../../../shared/services/GetHttpStatusText';
+import { ConvertResponseStatus } from '../../../shared/utils/ConvertResponseStatus';
+import { getHttpStatusText } from '../../../shared/utils/GetHttpStatusText';
 import { getBankByNameService } from '../../Bank/service/getBankByNameService';
 import { StateType } from '../enums/StateType';
 import { ICreateRecord } from '../interfaces/ICreateRecord';
 import { RecordRepository } from '../repository/RecordRepository';
 
-// serviço de criar registro no banco de dados
 export class createRecordsService {
-  async execute(info: ICreateRecord, nameBank: string) {
-    //serviços
-    const bankService = new getBankByNameService();
-    const repo = RecordRepository;
+  private bankService = new getBankByNameService();
 
-    //Parametros
-    const codeResponse = info.codeResponse;
-    const type = info.type;
-    const timeReq = info.timeReq;
-    const payload = info.payload;
+  async execute(info: ICreateRecord, bankName: string): Promise<void> {
+    const { codeResponse, type, timeReq, payload } = info;
 
-    //Resposta de services
-    const bank = await bankService.execute(nameBank);
-    const codigosPositivos = Object.values(PositiveCodeRequest);
+    // Busca banco pelo nome
+    const bank = await this.bankService.execute(bankName);
+
+    // Descobre status baseado no código de resposta
+    const isPositiveCode = Object.values(PositiveCodeRequest).includes(
+      Number(codeResponse)
+    );
+    const status: StateType = isPositiveCode
+      ? StateType.ativo
+      : StateType.inativo;
+
+    // Detalhamento do código HTTP
     const detailing = await getHttpStatusText(Number(codeResponse));
 
-    // if (typeof codeResponse === 'string') {
-    //   console.log('código da resposta com erro', codeResponse);
-    // }
-    // operação base para descobrir o status da requisição
-    let status: StateType;
-    if (codigosPositivos.includes(Number(codeResponse))) {
-      status = StateType.ativo;
-    } else {
-      status = StateType.inativo;
-    }
-
-    // serviço para saber a indicador do tempo de resposta da requisição
+    // Tempo de resposta classificado
     const responseTime = await ConvertResponseStatus(timeReq, status);
 
-    // cria o registro
-    await repo.CreateRecord(
+    // Cria o registro
+    await RecordRepository.CreateRecord(
       type,
       codeResponse,
       status,

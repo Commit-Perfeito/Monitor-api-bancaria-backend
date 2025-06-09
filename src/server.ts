@@ -1,6 +1,6 @@
 import express from 'express';
 import 'dotenv/config'; // Importando variáveis de ambiente
-import './server/shared/services/Translations'; // Importando tradução dos erros do Yup
+import './server/shared/utils/Translations'; // Importando tradução dos erros do Yup
 import { router } from './server/shared/http/routes'; // routes
 import { AppDataSource } from './data-source'; // Typeorm dataBase
 import cors from 'cors'; // lib para api ficar livre ao front

@@ -1,17 +1,20 @@
 import { Router } from 'express';
 import { recordController } from '../controller';
+import { getRecordsValidation } from '../middleware/getRecordValidation';
+import { listRecordValidation } from '../middleware/listRecordsValidation';
+
 export const consultaRouter = Router();
 
 consultaRouter.get('/');
 
 consultaRouter.get(
   '/:type/:bank',
-  recordController.getRecordsValidation,
+  getRecordsValidation,
   recordController.getRecords
 );
 
 consultaRouter.post(
   '/list-records',
-  recordController.listRecordValidation,
+  listRecordValidation,
   recordController.listRecords
 );

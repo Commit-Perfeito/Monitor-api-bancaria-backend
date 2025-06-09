@@ -1,101 +1,87 @@
 import { RecordRepository } from '../repository/RecordRepository';
 import { getBankByNameService } from '../../Bank/service/getBankByNameService';
 import { FilterTimes } from '../enums/FilterTimes';
-import { formatarDataParaBrasil } from '../../../shared/services/ConvertData';
+import { formatarDataParaBrasil } from '../../../shared/utils/ConvertData';
 import { StateType } from '../enums/StateType';
-import { parseDate } from '../../../shared/services/ParseDate';
+import { parseDate } from '../../../shared/utils/ParseDate';
+import { GetRecordsDTO } from '../interfaces/getRecordsDTO';
 
-// serviço de buscar registro
 export class GetRecordsService {
-  async execute(
-    bank: string,
-    type: string,
-    filter?: FilterTimes | undefined,
-    status?: StateType | undefined
-  ) {
-    const DateNow = new Date();
-    // services
-    const servicebank = new getBankByNameService();
-    const banco = await servicebank.execute(bank);
-    const Idbank = banco.id;
+  private bankService = new getBankByNameService();
 
-    let startDate = {
-      year: 0,
-      month: 0,
-      day: 0,
-      hour: 0,
-      minute: 0,
-      second: 0,
-    };
-    let endDate = { year: 0, month: 0, day: 0, hour: 0, minute: 0, second: 0 };
-    endDate = parseDate(DateNow.toString());
-    startDate = { ...endDate };
+  async execute({ bankName, type, filter, status }: GetRecordsDTO) {
+    const now = new Date();
+    const banco = await this.bankService.execute(bankName);
+    const bankId = banco.id;
+
+    // Calcula intervalo de datas com base no filtro
+    const endDate = parseDate(now.toString());
+    const startDate = { ...endDate };
 
     let limit = 0;
-    if (filter === 'DAY') {
-      startDate.day -= 1;
-    } else if (filter === 'WEEK') {
-      startDate.day -= 7;
-    } else if (filter === 'LAST') {
-      limit = 1;
-    } else if (filter === 'MOUTH') {
-      startDate.month -= 1;
+
+    switch (filter) {
+      case 'DAY':
+        startDate.day -= 1;
+        break;
+      case 'WEEK':
+        startDate.day -= 7;
+        break;
+      case 'MOUTH':
+        startDate.month -= 1;
+        break;
+      case 'LAST':
+        limit = 1;
+        break;
+      default:
+        break;
     }
 
-    let result;
+    const result = await this.getRecordsByParams(
+      bankId,
+      type,
+      startDate,
+      endDate,
+      limit,
+      status,
+      filter
+    );
 
-    // Verifica se o status é indefinido e chama a função adequada
-    // retornar apenas registros positivos ou negativos
-    if (status !== undefined && filter !== 'LAST') {
-      result = await RecordRepository.ListRecordsBetween(
-        Idbank,
-        type,
-        startDate,
-        endDate,
-        status
-      );
-      // retornar todos os registros
-    } else if (status === undefined && filter !== 'LAST') {
-      result = await RecordRepository.ListRecordsBetween(
-        Idbank,
-        type,
-        startDate,
-        endDate,
-        status
-      );
-    } else {
-      result = await RecordRepository.ListRecordsByStatus(
-        Idbank,
-        type,
-        limit,
-        status
-      );
-    }
-
-    // renomeia para PT-BR os campos para a requisição
-    const arrayRenomeado = result.map((item) => ({
-      Tipo: item.type,
-      CodigoDaResposta: item.codeResponse,
-      Banco: item.bank,
-      HoraDaConsulta: item.dateCreated,
-      Status: item.status,
-      TempoDeResposta: `${item.timeRequest} Milissegundos`,
-      PayloadResponse: item.payloadResponse,
-      Detalhamento: item.detailing,
-      StatusDaResposta: item.responseStatus,
-    }));
-
-    // Verifica se result existe e contém pelo menos um registro
     if (Array.isArray(result) && result.length > 0) {
-      // Formata o campo dateCreated de cada registro
-      const registrosFormatados = arrayRenomeado.map((record: any) => ({
-        ...record,
-        HoraDaConsulta: formatarDataParaBrasil(new Date(record.HoraDaConsulta)),
+      return result.map((record) => ({
+        Tipo: record.type,
+        CodigoDaResposta: record.codeResponse,
+        Banco: record.bank,
+        HoraDaConsulta: formatarDataParaBrasil(new Date(record.dateCreated)),
+        Status: record.status,
+        TempoDeResposta: `${record.timeRequest} Milissegundos`,
+        PayloadResponse: record.payloadResponse,
+        Detalhamento: record.detailing,
+        StatusDaResposta: record.responseStatus,
       }));
-      return registrosFormatados;
     }
 
-    // Caso não haja registros, retorna uma lista vazia ou null
     return [];
+  }
+
+  private async getRecordsByParams(
+    bankId: number,
+    type: string,
+    startDate: any,
+    endDate: any,
+    limit: number,
+    status?: StateType,
+    filter?: FilterTimes
+  ) {
+    if (filter === 'LAST') {
+      return RecordRepository.ListRecordsByStatus(bankId, type, limit, status);
+    }
+    return RecordRepository.ListRecordsBetween(
+      bankId,
+      type,
+      startDate,
+      endDate,
+      status
+    );
   }
 }
