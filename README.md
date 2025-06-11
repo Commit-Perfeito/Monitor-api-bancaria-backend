@@ -18,9 +18,8 @@ O sistema foi projetado para ser de fácil utilização e tem como propósito of
 - [Yup](https://www.npmjs.com/package/yup)
 - [ESLint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
-- [Cors](https://www.npmjs.com/package/cors)
-- [express-async-errors](https://www.npmjs.com/package/express-async-errors)
-- [Handlebars](https://handlebarsjs.com/)
+- [Cors](https://www.npmjs.com/package/cors))
+- [Swagger](https://swagger.io/)
 
 ### Dependências de Desenvolvimento:
 
