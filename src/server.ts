@@ -1,11 +1,13 @@
+import 'reflect-metadata';
 import express from 'express';
-import 'dotenv/config'; // Importando variáveis de ambiente
-import './server/shared/utils/Translations'; // Importando tradução dos erros do Yup
-import { router } from './server/shared/http/routes'; // routes
-import { AppDataSource } from './data-source'; // Typeorm dataBase
+import './server/shared/container/index';
+import 'dotenv/config';
+import './server/shared/utils/Translations';
 import cors from 'cors'; // lib para api ficar livre ao front
+import { AppDataSource } from './data-source';
 import { handleAxiosError } from './server/shared/errors/ErrorAxios'; // erros
 import { ReqAll } from './server/api/RequestAll'; // função que percorre lista e faz consulta na tecnospeed
+import { router } from './server/shared/http/routes';
 
 // Lista de bancos para percorrer no back-end atraves do .env
 const lista: string[] = process.env.Lista_Bancos?.split(',') || [];
@@ -18,23 +20,20 @@ const fetchData = async () => {
   }
 };
 
-// Inicializando o banco de dados
 AppDataSource.initialize()
   .then(() => {
-    // Se a conexão for bem-sucedida, inicializa o servidor
     const server = express();
-    //deixando api publica para o front-end
     server.use(cors());
     server.use(express.json());
     server.use(router);
 
-    const port = process.env.PORT || 3000; // Porta definida no .env ou 3000 como padrão
+    const port = process.env.PORT || 3000;
     server.listen(port, () => {
       console.log(' ');
       console.log('************************');
       console.log(`Servidor rodando na porta ${port}`);
-      fetchData();
-      setInterval(fetchData, 300000);
+      // fetchData();
+      // setInterval(fetchData, 300000);
     });
   })
   .catch((error) => {

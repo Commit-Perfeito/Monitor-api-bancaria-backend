@@ -1,8 +1,8 @@
 import { Router } from 'express'; // router do express
-import { consultaRouter } from '../../modules/Record/routes/routes'; //
 import swaggerUI from 'swagger-ui-express'; // swagger
 import path from 'path';
 import 'dotenv/config'; // Importando variáveis de ambiente
+import { recordRouter } from '../../modules/Record/infra/http/routes/Record.routes';
 
 export const router = Router();
 
@@ -27,4 +27,4 @@ router.get('/', (_, res) => {
   return res.send('Olá, dev!');
 });
 
-router.use('/boletos', consultaRouter);
+router.use('/boletos', recordRouter);

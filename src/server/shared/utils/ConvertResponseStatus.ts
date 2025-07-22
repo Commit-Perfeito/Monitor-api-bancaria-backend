@@ -1,4 +1,4 @@
-import { responseStatusType } from '../../modules/Record/enums/responseStatusType';
+import { responseStatusType } from "../../modules/Record/domain/enums/responseStatusType";
 
 // função para saber o indicar de tempo de resposta
 export const ConvertResponseStatus = async (

@@ -5,7 +5,7 @@
   "scripts": {
     "up": "docker-compose up",
     "build": "tsup src && node dist/server.js",
-    "dev": "docker start postgres-db && nodemon ./src/server.ts ",
+    "dev": "docker start monitor-db && nodemon ./src/server.ts ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migration:create": "typeorm-ts-node-commonjs migration:create src/server/shared/database/migrations/default",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/server/shared/database/migrations/default",
@@ -29,6 +29,7 @@
     "swagger-ui-express": "^5.0.1",
     "tsc": "^2.0.4",
     "tsup": "^8.2.4",
+    "tsyringe": "^4.10.0",
     "typeorm": "0.3.11",
     "typeorm-extension": "^3.6.2",
     "yup": "^1.4.0"

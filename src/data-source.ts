@@ -3,8 +3,6 @@ import 'reflect-metadata';
 import { dirname } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
-import { Bank } from './server/shared/database/entities/Bank';
-import { Record } from './server/shared/database/entities/Record';
 import { ScriptSeeder } from './server/shared/database/script/ScriptSeeder';
 
 const port = process.env.DB_PORT as number | undefined; // porta do banco de dados do .env
@@ -18,7 +16,7 @@ const options: DataSourceOptions & SeederOptions = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   synchronize: false, // Desative synchronize para gerar migrações corretamente
-  entities: [Bank, Record],
+  entities: [`${__dirname}/server/modules/**/infra/typeorm/entities/*.{ts,js}`],
   migrations: [`${__dirname}/server/shared/database/migrations/*.{ts,js}`], //local de migrations
   migrationsTableName: 'migrations', // tabela das migrations
   seeds: [ScriptSeeder], // local da seed

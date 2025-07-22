@@ -1,18 +1,25 @@
-import { RecordRepository } from '../repository/RecordRepository';
-import { getBankByNameService } from '../../Bank/service/getBankByNameService';
-import { FilterTimes } from '../enums/FilterTimes';
 import { formatarDataParaBrasil } from '../../../shared/utils/ConvertData';
-import { StateType } from '../enums/StateType';
+import { container, inject, injectable } from 'tsyringe';
+import IRecordRepository from '../domain/repositories/IRecordRepository';
+import { getBankByNameService } from '../../Bank/services/getBankByNameService';
 import { parseDate } from '../../../shared/utils/ParseDate';
-import { GetRecordsDTO } from '../interfaces/getRecordsDTO';
 
+@injectable()
 export class GetRecordsService {
-  private bankService = new getBankByNameService();
+  private bankService: getBankByNameService;
 
-  async execute({ bankName, type, filter, status }: GetRecordsDTO) {
+  constructor(
+    @inject('RecordRepository')
+    private recordRepository: IRecordRepository
+  ) {
+    this.bankService = container.resolve(getBankByNameService)
+  }
+
+  async execute(bankName: string, type: string, filter?: string, status?: string) {
     const now = new Date();
     const banco = await this.bankService.execute(bankName);
     const bankId = banco.id;
+
 
     // Calcula intervalo de datas com base no filtro
     const endDate = parseDate(now.toString());
@@ -70,13 +77,13 @@ export class GetRecordsService {
     startDate: any,
     endDate: any,
     limit: number,
-    status?: StateType,
-    filter?: FilterTimes
+    status?: string,
+    filter?: string
   ) {
     if (filter === 'LAST') {
-      return RecordRepository.ListRecordsByStatus(bankId, type, limit, status);
+      return await this.recordRepository.ListRecordsByStatus(bankId, type, limit, status);
     }
-    return RecordRepository.ListRecordsBetween(
+    return await this.recordRepository.ListRecordsBetween(
       bankId,
       type,
       startDate,

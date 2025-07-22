@@ -1,4 +1,4 @@
-import { HttpStatus } from '../../modules/Record/enums/HttpStatus';
+import { HttpStatus } from "../../modules/Record/domain/enums/HttpStatus";
 
 // função para retonar código de resposta da requisição em detalhamento
 export const getHttpStatusText = async (

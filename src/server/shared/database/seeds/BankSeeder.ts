@@ -1,6 +1,6 @@
 import { runSeeder, Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
-import { Bank } from '../entities/Bank';
+import { Bank } from '../../../modules/Bank/infra/typeorm/entities/Bank';
 
 // seeds dos bancos para realizar e identidicar as requisições no plugboleto
 export default class BankSeeder implements Seeder {
