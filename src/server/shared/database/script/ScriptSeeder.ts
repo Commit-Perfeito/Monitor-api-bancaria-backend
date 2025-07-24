@@ -6,7 +6,7 @@ import BankSeeder from '../seeds/BankSeeder';
 export class ScriptSeeder implements Seeder {
   async run(
     dataSource: DataSource,
-    factoryManager: SeederFactoryManager
+    factoryManager?: SeederFactoryManager
   ): Promise<void> {
     await runSeeder(dataSource, BankSeeder);
   }

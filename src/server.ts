@@ -9,6 +9,8 @@ import { handleAxiosError } from './server/shared/errors/ErrorAxios'; // erros
 import { ReqAll } from './server/modules/api/services/RequestAll'; // função que percorre lista e faz consulta na tecnospeed
 import { router } from './server/shared/http/routes';
 
+export const server = express();
+
 // Lista de bancos para percorrer no back-end atraves do .env
 const lista: string[] = process.env.Lista_Bancos?.split(',') || [];
 const fetchData = async () => {
@@ -22,7 +24,6 @@ const fetchData = async () => {
 
 AppDataSource.initialize()
   .then(() => {
-    const server = express();
     server.use(cors());
     server.use(express.json());
     server.use(router);
@@ -32,7 +33,7 @@ AppDataSource.initialize()
       console.log(' ');
       console.log('************************');
       console.log(`Servidor rodando na porta ${port}`);
-      // fetchData();
+      fetchData();
       // setInterval(fetchData, 300000);
     });
   })

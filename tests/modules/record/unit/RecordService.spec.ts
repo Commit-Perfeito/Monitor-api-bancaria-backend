@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import FakeRecordRepository from "../repositories/FakeRecordRepository"
 import { createRecordService } from 'src/server/modules/Record/services/CreateRecordService';
-// import FakeBankRepository from 'tests/modules/bank/repositories/FakeBankRepository';
 import FakeBankRepository from '../../bank/repositories/FakeBankRepository';
 import AppError from 'src/server/shared/errors/AppError';
 import { ListAllWithSearchTime } from 'src/server/modules/Record/services/listRecordService';
@@ -13,6 +12,8 @@ let create: createRecordService
 let listAll: ListAllWithSearchTime
 let fakeRecordRepository: FakeRecordRepository
 let fakeBankRepository: FakeBankRepository
+jest.mock('src/server/modules/Bank/services/FindBankByNameService') // mock automático
+
 describe('get bank By name', () => {
     beforeEach(() => {
         fakeRecordRepository = new FakeRecordRepository()
@@ -34,6 +35,22 @@ describe('get bank By name', () => {
         expect(response.type).toEqual(type)
         expect(response.bank.id).toEqual(bankId)
     })
+    it('Deve-se criar o registro com erro', async () => {
+        const [timeReq, type, codeResponse, payload, bankId] = [200, 'consulta', 500, {}, 1]
+
+        const response = await create.execute({
+            timeReq,
+            type,
+            codeResponse,
+            payload,
+            bankId
+        })
+        expect(response.codeResponse).toEqual(codeResponse)
+        expect(response.timeRequest).toEqual(timeReq)
+        expect(response.type).toEqual(type)
+        expect(response.status).toEqual('inativo')
+        expect(response.bank.id).toEqual(bankId)
+    })
     it('Deve-se retornar erro ao tentar criar um registro com Id inexistente erradas errado', async () => {
         const idBankWrong = 20;
         const [timeReq, type, codeResponse, payload] = [500, 'consulta', 200, {}]
@@ -51,7 +68,6 @@ describe('get bank By name', () => {
     })
 })
 
-jest.mock('src/server/modules/Bank/services/FindBankByNameService') // mock automático
 describe('List All With Search Time', () => {
     beforeEach(async () => {
         fakeRecordRepository = new FakeRecordRepository()
@@ -71,12 +87,12 @@ describe('List All With Search Time', () => {
             'Sucesss',
             'Normal'
         )
-        jest.mocked(findBankByName.prototype.execute).mockResolvedValue({
-            id: 1,
-            name: 'BANCODOBRASIL_V2',
-        } as IBank)
+        const mockFindBankByName = {
+            execute: jest.fn().mockResolvedValue(bank),
+        };
 
-        listAll = new ListAllWithSearchTime(fakeRecordRepository)
+
+        listAll = new ListAllWithSearchTime(fakeRecordRepository, mockFindBankByName as any)
     })
 
     it('Deve listar registros entre datas', async () => {
@@ -100,7 +116,6 @@ describe('List All With Search Time', () => {
             '2099-12-31',
             'ativo'
         )
-        console.log(result)
         expect(result).toBeInstanceOf(Array)
         expect(result[0].status).toEqual('ativo')
     })

@@ -25,7 +25,9 @@ const config: InitialOptionsTsJest = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['<rootDir>/src/server/modules/**/services/*.ts'],
+  collectCoverageFrom: ['<rootDir>/src/server/modules/**/services/*.ts',
+    // '<rootDir>/src/server/modules/**/infra/http/controller/*.ts'
+  ],
 
 
   // The directory where Jest should output its coverage files
