@@ -5,6 +5,6 @@ export interface ICreateRecord {
   type: string;
   codeResponse: number;
   payload: object;
-  bancoCode: number;
-  detailing?: string;
+  bankId: number;
+  detailing?: string
 }

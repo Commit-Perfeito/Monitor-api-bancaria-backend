@@ -6,7 +6,7 @@ import './server/shared/utils/Translations';
 import cors from 'cors'; // lib para api ficar livre ao front
 import { AppDataSource } from './data-source';
 import { handleAxiosError } from './server/shared/errors/ErrorAxios'; // erros
-import { ReqAll } from './server/api/RequestAll'; // função que percorre lista e faz consulta na tecnospeed
+import { ReqAll } from './server/modules/api/services/RequestAll'; // função que percorre lista e faz consulta na tecnospeed
 import { router } from './server/shared/http/routes';
 
 // Lista de bancos para percorrer no back-end atraves do .env

@@ -1,18 +1,18 @@
 import { formatarDataParaBrasil } from '../../../shared/utils/ConvertData';
 import { container, inject, injectable } from 'tsyringe';
 import IRecordRepository from '../domain/repositories/IRecordRepository';
-import { getBankByNameService } from '../../Bank/services/getBankByNameService';
+import { findBankByName } from '../../Bank/services/FindBankByNameService';
 import { parseDate } from '../../../shared/utils/ParseDate';
 
 @injectable()
 export class GetRecordsService {
-  private bankService: getBankByNameService;
+  private bankService: findBankByName;
 
   constructor(
     @inject('RecordRepository')
     private recordRepository: IRecordRepository
   ) {
-    this.bankService = container.resolve(getBankByNameService)
+    this.bankService = container.resolve(findBankByName)
   }
 
   async execute(bankName: string, type: string, filter?: string, status?: string) {

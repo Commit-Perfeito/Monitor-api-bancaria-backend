@@ -1,17 +1,17 @@
 import { container } from "tsyringe";
-import { createRecordService } from "../../Record/service/createRecordService";
-import getBankByCodeService from "../../Bank/services/getBankByCodeService";
 import { CedenteInterface } from "../models/interfaces/CedenteInterface";
 import { convert_Env } from "../../../shared/utils/ConvertEnvToJSON";
-import { ConvertCedenteForRecord } from "./ConvertCedenteforObject";
+import { ConvertCedenteForRecord } from "../models/utils/ConvertCedenteforObject";
 import { IBank } from "../../Bank/domain/models/IBank";
-import { ICreateRecord } from "../../Record/domain/interfaces/ICreateRecord";
+import { ICreateRecord } from "../../Record/domain/models/ICreateRecord";
 import { RegistroBoleto } from "../requests/Registro/RegistroBoletoAPI";
 import { ConsultaBoleto } from "../requests/Consulta/ConsultaBoletoAPI";
+import { createRecordService } from "../../Record/services/CreateRecordService";
+import { findBankByName } from "../../Bank/services/FindBankByNameService";
 
 export const ReqAll = async (envList: string[]) => {
   const recordService = container.resolve(createRecordService);
-  const bankService = container.resolve(getBankByCodeService);
+  const bankService = container.resolve(findBankByName);
   let errorsCount = 0;
 
   for (const bankKey of envList) {
@@ -36,16 +36,15 @@ export const ReqAll = async (envList: string[]) => {
         cedente.NOME_BANCO
       );
 
-      await recordService.execute(registro, cedente.NOME_BANCO);
-      await recordService.execute(consulta, cedente.NOME_BANCO);
+      await recordService.execute(registro);
+      await recordService.execute(consulta);
     } catch (error: any) {
       // mesmo com erro salvar no banco
-      const bank: IBank = await bankService.execute(
-        Number(cedente.CEDENTE_CONTA_CODIGO_BANCO)
-      );
+      const bank: IBank = await bankService.execute(cedente.NOME_BANCO)
 
-      const Record: ICreateRecord = {
-        bancoCode: bank.bankCode,
+
+      const record: ICreateRecord = {
+        bankId: bank.id,
         codeResponse: error.code,
         payload: error.data,
         timeReq: 0,
@@ -53,10 +52,10 @@ export const ReqAll = async (envList: string[]) => {
           error.method === 'REGISTRO'
             ? 'REGISTRO'
             : 'CONSULTA',
-        detailing: error.code,
+        // detailing: error.code,
       };
 
-      await recordService.execute(Record, cedente.NOME_BANCO);
+      await recordService.execute(record);
 
       console.error(
         `Erro ao registrar boleto para o banco: ${cedente.NOME_BANCO}`,

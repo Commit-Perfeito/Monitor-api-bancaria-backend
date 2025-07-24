@@ -1,15 +1,15 @@
 import { container } from 'tsyringe';
-import { ApiBodyInterface } from '../models/interfaces/ApiBodyInterface';
-import { ICreateRecord } from '../../Record/domain/interfaces/ICreateRecord';
-import { getBankByNameService } from '../../Bank/services/getBankByNameService';
-import { TypeRequest } from '../../Record/domain/enums/TypeRequest';
+import { ApiBodyInterface } from '../interfaces/ApiBodyInterface';
+import { ICreateRecord } from '../../../Record/domain/models/ICreateRecord';
+import { findBankByName } from '../../../Bank/services/FindBankByNameService';
+import { TypeRequest } from '../../../Record/domain/enums/TypeRequest';
 
 // Função para converter o cedente em objeto para salvar no banco de dados
 export const ConvertCedenteForRecord = async (
   corpoRegistro: ApiBodyInterface,
   banco: string
 ): Promise<ICreateRecord> => {
-  const bankService = container.resolve(getBankByNameService);
+  const bankService = container.resolve(findBankByName);
   const bank = await bankService.execute(banco);
 
   const type =
@@ -18,7 +18,7 @@ export const ConvertCedenteForRecord = async (
       : TypeRequest.REGISTRO;
 
   return {
-    bancoCode: bank.bankCode,
+    bankId: bank.id,
     type,
     timeReq: Number(corpoRegistro.TempoReq),
     codeResponse: corpoRegistro.codeResponse,

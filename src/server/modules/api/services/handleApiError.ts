@@ -1,4 +1,4 @@
-import { PositiveCodeRequest } from '../../../shared/enums/PositiveCodeRequest';
+import { PositiveCodeRequest } from '../models/enums/PositiveCodeRequest';
 import { ApiBodyInterface } from '../models/interfaces/ApiBodyInterface';
 
 interface AxiosError {

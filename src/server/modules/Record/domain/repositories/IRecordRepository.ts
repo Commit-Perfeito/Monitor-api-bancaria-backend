@@ -40,4 +40,5 @@ export default interface IRecordRepository {
         detailing: string,
         responseStatus: string
     ): Promise<IRecord>
+
 }

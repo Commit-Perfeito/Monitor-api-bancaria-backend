@@ -11,11 +11,14 @@ export class BankRepository implements IBankRepository {
     this.ormRepository = AppDataSource.getRepository(Bank);
   }
 
-  public async ListBankByName(bank: string): Promise<Bank | null> {
+  public async listBankByName(bank: string): Promise<Bank | null> {
     return await this.ormRepository
       .createQueryBuilder('banks')
       .where('banks.name = :bank', { bank })
       .getOne();
+  }
+  public findById(id: number): Promise<Bank | null> {
+    return this.ormRepository.findOneBy({ id });
   }
 
   public async findBankBycode(bankCode: number): Promise<Bank | null> {

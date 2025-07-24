@@ -1,7 +1,7 @@
 import { api } from "../../../../config/api/api";
 import { ApiBodyInterface } from "../../models/interfaces/ApiBodyInterface";
 import { CedenteInterface } from "../../models/interfaces/CedenteInterface";
-import { handleApiError } from "../../service/handleApiError";
+import { handleApiError } from "../../services/handleApiError";
 
 export const ConsultaBoleto = async (
   cedente: CedenteInterface

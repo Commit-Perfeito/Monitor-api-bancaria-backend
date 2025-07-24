@@ -4,6 +4,8 @@ import { dirname } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import { ScriptSeeder } from './server/shared/database/script/ScriptSeeder';
+// import { Bank } from './server/modules/Bank/infra/typeorm/entities/Bank';
+// import { Record } from './server/modules/Record/infra/typeorm/entities/Record';
 
 const port = process.env.DB_PORT as number | undefined; // porta do banco de dados do .env
 
@@ -16,6 +18,7 @@ const options: DataSourceOptions & SeederOptions = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   synchronize: false, // Desative synchronize para gerar migrações corretamente
+  // entities: [Bank, Record],
   entities: [`${__dirname}/server/modules/**/infra/typeorm/entities/*.{ts,js}`],
   migrations: [`${__dirname}/server/shared/database/migrations/*.{ts,js}`], //local de migrations
   migrationsTableName: 'migrations', // tabela das migrations

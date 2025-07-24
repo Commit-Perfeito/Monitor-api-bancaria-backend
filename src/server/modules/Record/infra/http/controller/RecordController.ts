@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { GetRecordsService } from '../../../service/getRecordService';
-import { ListAllWithSearchTime } from '../../../service/listRecordService';
+import { GetRecordsService } from '../../../services/getRecordService';
+import { ListAllWithSearchTime } from '../../../services/listRecordService';
 
 export default class recordController {
   public async listAll(request: Request, response: Response): Promise<Response> {

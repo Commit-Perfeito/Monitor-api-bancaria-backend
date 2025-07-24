@@ -1,21 +1,19 @@
-import { BankRepository } from '../infra/typeorm/repository/BankRespository';
 import AppError from '../../../shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import IBankRepository from '../domain/repositories/IBankRepository';
 import { IBank } from '../domain/models/IBank';
+import IBankRepository from '../domain/repositories/IBankRepository';
 
 
 @injectable()
-export class getBankByNameService {
+export class findBankByName {
   constructor(
     @inject('BankRepository')
     private bankRepository: IBankRepository
   ) {
 
   } async execute(bank: string): Promise<IBank> {
-    const result = await this.bankRepository.ListBankByName(bank);
+    const result = await this.bankRepository.listBankByName(bank);
     if (!result) {
-      //caso não tenha retorna err
       throw new AppError(`Não existe nenhum banco com o nome ${bank} `);
     }
     return result;

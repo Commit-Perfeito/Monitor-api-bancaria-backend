@@ -1,4 +1,4 @@
-import { CedenteInterface } from '../../api/interfaces/CedenteInterface';
+import { CedenteInterface } from '../../modules/api/models/interfaces/CedenteInterface';
 // função converter variavel de ambiente em objeto
 export const convert_Env = async (
   varEnv: string | undefined

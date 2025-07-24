@@ -4,6 +4,7 @@ import IRecordRepository from '../../../domain/repositories/IRecordRepository';
 import { Record } from '../entities/Record';
 import { IBank } from '../../../../Bank/domain/models/IBank';
 import { Bank } from '../../../../Bank/infra/typeorm/entities/Bank';
+import { IRecord } from '../../../domain/models/IRecord';
 
 type Timestamp = {
   year: number;
