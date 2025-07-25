@@ -5,10 +5,10 @@
   "scripts": {
     "up": "docker-compose up",
     "build": "tsup src && node dist/server.js",
-    "dev": "docker start monitor-db && nodemon ./src/server.ts ",
+    "dev": "docker start monitor-db && nodemon --exec \"ts-node -r tsconfig-paths/register\" ./src/shared/infra/http/server.ts",
     "test": "jest",
-    "migration:create": "typeorm-ts-node-commonjs migration:create src/server/shared/database/migrations/default",
-    "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/server/shared/database/migrations/default",
+    "migration:create": "typeorm-ts-node-commonjs migration:create src/shared/database/migrations/default",
+    "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/shared/database/migrations/default",
     "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run",
     "migration:revert": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:revert",
     "seed:run": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs -d ./src/data-source.ts seed:run"
@@ -24,6 +24,7 @@
     "express": "^4.21.0",
     "http-status-codes": "^2.3.0",
     "pg": "^8.12.0",
+    "rate-limiter-flexible": "^7.1.1",
     "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",

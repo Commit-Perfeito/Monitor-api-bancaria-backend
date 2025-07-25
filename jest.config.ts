@@ -25,7 +25,7 @@ const config: InitialOptionsTsJest = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['<rootDir>/src/server/modules/**/services/*.ts',
+  collectCoverageFrom: ['<rootDir>/src/modules/**/services/*.ts',
     // '<rootDir>/src/server/modules/**/infra/http/controller/*.ts'
   ],
 
@@ -100,8 +100,8 @@ const config: InitialOptionsTsJest = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/src/$1',
-    '^@modules/(.*)$': '<rootDir>/src/server/modules/$1',
-    '^@shared/(.*)$': '<rootDir>/src/server/shared/$1',
+    '^@modules/(.*)$': '<rootDir>/src/modules/$1',
+    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

@@ -11,10 +11,10 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@modules/*": ["src/modules/*"],
-      "@shared/*": ["src/shared/*"]
+      "@modules/*": ["modules/*"],
+      "@shared/*": ["shared/*"],
     }
   },
   "exclude": ["node_modules", "dist"],
