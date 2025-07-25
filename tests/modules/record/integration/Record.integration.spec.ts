@@ -1,8 +1,7 @@
-import { server } from 'src/server'
 import { AppDataSource } from '@shared/infra/typeorm/data-source'
-import { ScriptSeeder } from 'src/server/shared/database/script/ScriptSeeder'
 import request from 'supertest'
-import { count } from 'console'
+import { ScriptSeeder } from '@shared/infra/typeorm/script/ScriptSeeder'
+import { server } from '@shared/infra/http/server'
 
 
 describe('Records - Integration', () => {

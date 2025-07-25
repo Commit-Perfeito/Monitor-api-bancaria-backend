@@ -10,7 +10,7 @@ import { FindbankById } from '../../Bank/services/FindbankByIdService';
 import IBankRepository from '../../Bank/domain/repositories/IBankRepository';
 
 @injectable()
-export class createRecordService {
+export class CreateRecordService {
   private bankService: FindbankById;
   constructor(
     @inject('RecordRepository')

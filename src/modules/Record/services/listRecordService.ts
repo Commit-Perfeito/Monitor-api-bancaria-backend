@@ -1,6 +1,6 @@
 import { container, inject, injectable } from 'tsyringe';
 import IRecordRepository from '../domain/repositories/IRecordRepository';
-import { findBankByName } from '../../Bank/services/FindBankByNameService';
+import { FindBankByName } from '../../Bank/services/FindBankByNameService';
 import { parseDate } from '../../../shared/utils/ParseDate';
 import { IRecord } from '../domain/models/IRecord';
 
@@ -10,8 +10,8 @@ export class ListAllWithSearchTime {
   constructor(
     @inject('RecordRepository')
     private RecordRepository: IRecordRepository,
-    @inject(findBankByName)
-    private findBankByName: findBankByName,
+    @inject(FindBankByName)
+    private FindBankByName: FindBankByName,
   ) { }
 
   async execute(
@@ -24,7 +24,7 @@ export class ListAllWithSearchTime {
     {
 
       // Busca o banco pelo nome para obter o ID
-      const banco = await this.findBankByName.execute(bank);
+      const banco = await this.FindBankByName.execute(bank);
       const bankId = banco.id;
 
       // Converte strings de data para objetos Date no formato interno esperado

@@ -1,13 +1,6 @@
+import { AxiosError } from 'axios';
 import { PositiveCodeRequest } from '../models/enums/PositiveCodeRequest';
 import { ApiBodyInterface } from '../models/interfaces/ApiBodyInterface';
-
-interface AxiosError {
-  response?: {
-    status: number;
-    data: any;
-  };
-  code?: string;
-}
 
 export const handleApiError = (
   error: any,

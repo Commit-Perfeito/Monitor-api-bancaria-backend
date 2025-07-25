@@ -5,7 +5,7 @@ import IBankRepository from '../domain/repositories/IBankRepository';
 
 
 @injectable()
-export class findBankByName {
+export class FindBankByName {
   constructor(
     @inject('BankRepository')
     private bankRepository: IBankRepository

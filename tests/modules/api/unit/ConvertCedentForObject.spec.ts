@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import FakeBankRepository from '../../bank/repositories/FakeBankRepository';
-import { ConvertCedenteForRecord } from 'src/server/modules/api/models/utils/ConvertCedenteforObject';
+import { ConvertCedenteForRecord } from '@modules/api/models/utils/ConvertCedenteforObject';
 
 describe('função converter cedente para objeto', () => {
   beforeEach(() => {
