@@ -9,3 +9,7 @@ BankRouter.get(
   '/',
   controller.ListAllBanks
 );
+BankRouter.get(
+  '/:name',
+  controller.FindByName
+);

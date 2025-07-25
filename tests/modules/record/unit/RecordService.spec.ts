@@ -10,7 +10,7 @@ let create: CreateRecordService
 let listAll: ListAllWithSearchTime
 let fakeRecordRepository: FakeRecordRepository
 let fakeBankRepository: FakeBankRepository
-jest.mock('src/server/modules/Bank/services/FindBankByNameService') // mock automático
+jest.mock('src/modules/Bank/services/FindBankByNameService') // mock automático
 
 describe('get bank By name', () => {
   beforeEach(() => {
@@ -134,3 +134,5 @@ describe('List All With Search Time', () => {
     expect(result).toEqual([])
   })
 })
+
+

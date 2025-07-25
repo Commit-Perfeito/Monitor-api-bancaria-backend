@@ -49,11 +49,14 @@ export default class RequestAllService {
         await this.createRecordService.execute(consulta);
       } catch (error: any) {
         // mesmo com erro salvar no banco
-        const bank: IBank = await this.findBankByName.execute(cedente.NOME_BANCO)
+        const bank = await this.findBankByName.execute(cedente.NOME_BANCO)
 
+        if (!bank) {
+          throw new Error(`Banco não encontrado: ${cedente.NOME_BANCO}`)
+        }
 
         const record: ICreateRecord = {
-          bankId: bank.id,
+          bankId: bank.id!,
           codeResponse: error.code,
           payload: error.data,
           timeReq: 0,

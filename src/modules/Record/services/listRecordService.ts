@@ -3,6 +3,7 @@ import IRecordRepository from '../domain/repositories/IRecordRepository';
 import { FindBankByName } from '../../Bank/services/FindBankByNameService';
 import { parseDate } from '../../../shared/utils/ParseDate';
 import { IRecord } from '../domain/models/IRecord';
+import AppError from '@shared/errors/AppError';
 
 @injectable()
 export class ListAllWithSearchTime {

@@ -3,7 +3,7 @@ import { RateLimiterMemory } from 'rate-limiter-flexible';
 import AppError from '../../../errors/AppError';
 
 const limiter = new RateLimiterMemory({
-  points: 1,      // número de requisições
+  points: 100,      // número de requisições
   duration: 1,      // por segundo
 });
 
