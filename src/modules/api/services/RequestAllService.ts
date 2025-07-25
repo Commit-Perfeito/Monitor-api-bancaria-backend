@@ -1,23 +1,25 @@
-import { container, inject, injectable } from "tsyringe";
-import { CedenteInterface } from "../models/interfaces/CedenteInterface";
+import { inject, injectable } from "tsyringe";
+import { CedenteInterface } from "../domain/interfaces/CedenteInterface";
 import { convert_Env } from "../../../shared/utils/ConvertEnvToJSON";
-import { ConvertCedenteForRecord } from "../models/utils/ConvertCedenteforObject";
-import { IBank } from "../../Bank/domain/models/IBank";
+import { ConvertCedenteForRecord } from "../domain/utils/ConvertCedenteforObject";
 import { ICreateRecord } from "../../Record/domain/models/ICreateRecord";
-import { RegistroBoleto } from "../requests/Registro/RegistroBoletoAPI";
-import { ConsultaBoleto } from "../requests/Consulta/ConsultaBoletoAPI";
 import { CreateRecordService } from "../../Record/services/CreateRecordService";
 import { FindBankByName } from "../../Bank/services/FindBankByNameService";
+import ConsultaBoletoService from "./ConsultaBoletoService";
+import RegistroBoletoService from "./ConsultaBoletoService";
 
 @injectable()
 export default class RequestAllService {
-
+  private consulta: ConsultaBoletoService
+  private registro: RegistroBoletoService
   constructor(
     @inject(FindBankByName)
     private findBankByName: FindBankByName,
     @inject(CreateRecordService)
     private createRecordService: CreateRecordService
   ) {
+    this.consulta = new ConsultaBoletoService()
+    this.registro = new RegistroBoletoService()
   }
 
   async execute(envList: string[]) {
@@ -29,8 +31,8 @@ export default class RequestAllService {
 
       try {
         const [registerResult, consultResult] = await Promise.all([
-          RegistroBoleto(cedente),
-          ConsultaBoleto(cedente),
+          this.consulta.execute(cedente),
+          this.registro.execute(cedente),
         ]);
 
         if (registerResult.erro) errorsCount++;
