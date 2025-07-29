@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { PositiveCodeRequest } from '../../api/models/enums/PositiveCodeRequest';
+import { PositiveCodeRequest } from '../../api/domain/enums/PositiveCodeRequest';
 import { ConvertResponseStatus } from '../../../shared/utils/ConvertResponseStatus';
 import { getHttpStatusText } from '../../../shared/utils/GetHttpStatusText';
 import IRecordRepository from '../domain/repositories/IRecordRepository';

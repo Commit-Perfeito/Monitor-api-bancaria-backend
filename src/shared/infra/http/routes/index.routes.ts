@@ -27,5 +27,5 @@ router.get('/', (_, res) => {
   return res.send('Olá, dev!');
 });
 
-router.use('/boletos', recordRouter);
-router.use('/bancos', BankRouter);
+router.use('/boleto', recordRouter);
+router.use('/banco', BankRouter);
