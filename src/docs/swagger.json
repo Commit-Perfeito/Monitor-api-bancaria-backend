@@ -8,6 +8,9 @@
   "paths": {
     "/boletos/list-records": {
       "post": {
+        "tags":[
+            "boleto"
+         ],
         "summary": "Listar registros e consultas de boletos",
         "description": "Listar registros e consultas de boletos com filtros de valores.",
         "requestBody": {
@@ -63,6 +66,71 @@
           }
         }
       }
+    },
+    "/banco": {
+      "get": {
+        "tags":[
+            "banco"
+         ],
+        "summary": "Listar Bancos",
+        "description": "Listar todos os bancos Pelo nome",
+        "parameters":
+          {}
+        ,  
+        "responses": {
+          "200": {
+            "description": "Sucess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Banco"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação nos dados fornecidos"
+          },
+          "500": {
+            "description": "Erro inesperado ao processar a solicitação"
+          }
+        }
+      }
+    },
+    "/banco/:name": {
+      "get": {
+        "tags":[
+            "banco"
+         ],
+        "summary": "Achar banco banco",
+        "description": "Achar um banco pelo Nome",
+        "parameters":[
+          {
+            "name":"name",
+            "in":"path",
+            "required":true,
+            "type":"string"
+          }
+        ],   
+        "responses": {
+          "200": {
+            "description": "Sucess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Banco"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação nos dados fornecidos"
+          },
+          "500": {
+            "description": "Erro inesperado ao processar a solicitação"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -101,6 +169,23 @@
           "StatusDaResposta": {
             "type": "string",
             "description": "Detalhamento do tempo de resposta"
+          }
+        }
+      },
+      "Banco": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "identificador do registo do banco"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do Banco"
+          },
+          "bankCode": {
+            "type": "number",
+            "description": "Número do banco"
           }
         }
       }
