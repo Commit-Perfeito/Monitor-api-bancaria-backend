@@ -5,7 +5,7 @@
   "scripts": {
     "up": "docker-compose up",
     "build": "tsup src && node dist/server.js",
-    "dev": "docker start postgres-db && nodemon ./src/server.ts ",
+    "dev": "docker start postgres-monitor && nodemon ./src/server.ts ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migration:create": "typeorm-ts-node-commonjs migration:create src/server/shared/database/migrations/default",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/server/shared/database/migrations/default",

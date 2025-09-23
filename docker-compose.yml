@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     image: postgres:14
-    container_name: postgres-db
+    container_name: postgres-monitor
     restart: always
     environment:
       POSTGRES_USER: 'docker'
@@ -10,6 +10,20 @@ services:
       POSTGRES_DB: 'monitor-web'
     ports:
       - '5432:5432'
+  # Serviço do backend Node.js
+  backend:
+    image: node:20
+    container_name: monitor-backend
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - NODE_ENV=development
+    ports:
+      - '3000:3000'
+    command: sh -c "yarn install && yarn migration:run && yarn seed:run && yarn dev"
+    depends_on:
+      - db
 # Descomente a linha abaixo para persistir dados
 #    volumes:
 #      - pgdata:/var/lib/postgresql/data
