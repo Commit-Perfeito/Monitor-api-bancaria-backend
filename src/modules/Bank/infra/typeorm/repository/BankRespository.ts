@@ -2,7 +2,7 @@
 import { Bank } from '../entities/Bank';
 import IBankRepository from '../../../domain/repositories/IBankRepository';
 import { Repository } from 'typeorm';
-import { AppDataSource } from '@shared/infra/typeorm/data-source';
+import { AppDataSource } from 'data-source';
 // import { AppDataSource } from '../../../../../shared/infra/typeorm/data-source';
 
 export class BankRepository implements IBankRepository {
@@ -29,8 +29,6 @@ export class BankRepository implements IBankRepository {
       .getOne();
   }
   public async list(): Promise<Bank[]> {
-    return await this.ormRepository
-      .createQueryBuilder('banks')
-      .getMany();
+    return await this.ormRepository.createQueryBuilder('banks').getMany();
   }
 }

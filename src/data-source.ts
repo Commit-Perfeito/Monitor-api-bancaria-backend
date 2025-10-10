@@ -2,12 +2,12 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
-import { ScriptSeeder } from './script/ScriptSeeder';
-import { Bank } from '@modules/Bank/infra/typeorm/entities/Bank';
-import { Record } from '@modules/Record/infra/typeorm/entities/Record';
+import { ScriptSeeder } from './shared/infra/typeorm/script/ScriptSeeder';
+import { Bank } from './modules/Bank/infra/typeorm/entities/Bank';
+import { Record } from './modules/Record/infra/typeorm/entities/Record';
 
 const port = process.env.DB_PORT as number | undefined; // porta do banco de dados do .env
-
+console.log(`${__dirname}/shared/infra/typeorm/migrations/*.{ts,js}`);
 // parametros para a seed e migration do banco de dados
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',

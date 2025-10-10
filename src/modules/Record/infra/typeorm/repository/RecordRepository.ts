@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import IRecordRepository from '../../../domain/repositories/IRecordRepository';
 import { Record } from '../entities/Record';
 import { Bank } from '../../../../Bank/infra/typeorm/entities/Bank';
-import { AppDataSource } from '@shared/infra/typeorm/data-source';
+import { AppDataSource } from 'data-source';
 
 type Timestamp = {
   year: number;
@@ -27,7 +27,8 @@ export class RecordRepository implements IRecordRepository {
     end: Timestamp,
     status?: string
   ): Promise<Record[] | null> {
-    const query = this.ormRepository.createQueryBuilder('records')
+    const query = this.ormRepository
+      .createQueryBuilder('records')
       .where('records.type = :type', { type })
       .andWhere('records.bankId = :bankId', { bankId })
       .andWhere(
@@ -82,7 +83,8 @@ export class RecordRepository implements IRecordRepository {
     limit: number,
     status?: string
   ): Promise<Record[] | null> {
-    const query = this.ormRepository.createQueryBuilder('records')
+    const query = this.ormRepository
+      .createQueryBuilder('records')
       .where('records.type = :type', { type })
       .andWhere('records.bankId = :bankId', { bankId });
 
@@ -92,10 +94,7 @@ export class RecordRepository implements IRecordRepository {
 
     const order = limit === 1 ? 'DESC' : 'ASC';
 
-    return query
-      .orderBy('records.dateCreated', order)
-      .take(limit)
-      .getMany();
+    return query.orderBy('records.dateCreated', order).take(limit).getMany();
   }
 
   async CreateRecord(
