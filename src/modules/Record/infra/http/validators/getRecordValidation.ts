@@ -1,10 +1,10 @@
 import * as yup from 'yup';
+import { bankOptions } from '@modules/Bank/domain/enums/Banks';
+import { FilterTimes } from '@modules/Record/domain/enums/FilterTimes';
+import { StateType } from '@modules/Record/domain/enums/StateType';
+import { TypeRequest } from '@modules/Record/domain/enums/TypeRequest';
+import { IQueryProps } from '@modules/Record/domain/interfaces/IQueryProps';
 import { validation } from '@shared/infra/http/middleware/validation';
-import { IQueryProps } from '../domain/interfaces/IQueryProps';
-import { FilterTimes } from '../domain/enums/FilterTimes';
-import { StateType } from '../domain/enums/StateType';
-import { bankOptions } from '../../Bank/domain/enums/Banks';
-import { TypeRequest } from '../domain/enums/TypeRequest';
 
 interface IParamsSchema {
   bank?: bankOptions;

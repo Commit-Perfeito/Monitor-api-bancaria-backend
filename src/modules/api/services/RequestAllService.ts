@@ -1,25 +1,25 @@
-import { inject, injectable } from "tsyringe";
-import { CedenteInterface } from "../domain/interfaces/CedenteInterface";
-import { convert_Env } from "../../../shared/utils/ConvertEnvToJSON";
-import { ConvertCedenteForRecord } from "../domain/utils/ConvertCedenteforObject";
-import { ICreateRecord } from "../../Record/domain/models/ICreateRecord";
-import { CreateRecordService } from "../../Record/services/CreateRecordService";
-import { FindBankByName } from "../../Bank/services/FindBankByNameService";
-import ConsultaBoletoService from "./ConsultaBoletoService";
-import RegistroBoletoService from "./ConsultaBoletoService";
+import { inject, injectable } from 'tsyringe';
+import { CedenteInterface } from '../domain/interfaces/CedenteInterface';
+import { convert_Env } from '../../../shared/utils/ConvertEnvToJSON';
+import { ConvertCedenteForRecord } from '../domain/utils/ConvertCedenteforObject';
+import { ICreateRecord } from '../../Record/domain/models/ICreateRecord';
+import { FindBankByName } from '../../Bank/services/FindBankByNameService';
+import ConsultaBoletoService from './ConsultaBoletoService';
+import RegistroBoletoService from './ConsultaBoletoService';
+import { CreateRecordService } from '@modules/Record/useCase/CreateRecordUseCase/CreateRecordService';
 
 @injectable()
 export default class RequestAllService {
-  private consulta: ConsultaBoletoService
-  private registro: RegistroBoletoService
+  private consulta: ConsultaBoletoService;
+  private registro: RegistroBoletoService;
   constructor(
     @inject(FindBankByName)
     private findBankByName: FindBankByName,
     @inject(CreateRecordService)
     private createRecordService: CreateRecordService
   ) {
-    this.consulta = new ConsultaBoletoService()
-    this.registro = new RegistroBoletoService()
+    this.consulta = new ConsultaBoletoService();
+    this.registro = new RegistroBoletoService();
   }
 
   async execute(envList: string[]) {
@@ -51,10 +51,10 @@ export default class RequestAllService {
         await this.createRecordService.execute(consulta);
       } catch (error: any) {
         // mesmo com erro salvar no banco
-        const bank = await this.findBankByName.execute(cedente.NOME_BANCO)
+        const bank = await this.findBankByName.execute(cedente.NOME_BANCO);
 
         if (!bank) {
-          throw new Error(`Banco não encontrado: ${cedente.NOME_BANCO}`)
+          throw new Error(`Banco não encontrado: ${cedente.NOME_BANCO}`);
         }
 
         const record: ICreateRecord = {
@@ -62,10 +62,7 @@ export default class RequestAllService {
           codeResponse: error.code,
           payload: error.data,
           timeReq: 0,
-          type:
-            error.method === 'REGISTRO'
-              ? 'REGISTRO'
-              : 'CONSULTA',
+          type: error.method === 'REGISTRO' ? 'REGISTRO' : 'CONSULTA',
           // detailing: error.code,
         };
 
@@ -82,5 +79,5 @@ export default class RequestAllService {
     console.log('\n************************\n');
     console.log(`${envList.length} Bancos verificados com sucesso!`);
     console.log(`${errorsCount} Bancos com erro!`);
-  };
-} 
+  }
+}

@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import { validation } from '../../../shared/infra/http/middleware/validation';
-import { StateType } from '../domain/enums/StateType';
-import { TypeRequest } from '../domain/enums/TypeRequest';
-import { bankOptions } from '../../Bank/domain/enums/Banks';
+import { bankOptions } from '@modules/Bank/domain/enums/Banks';
+import { StateType } from '@modules/Record/domain/enums/StateType';
+import { TypeRequest } from '@modules/Record/domain/enums/TypeRequest';
+import { validation } from '@shared/infra/http/middleware/validation';
 
 interface IBodyListSchema {
   startDate: string;
@@ -32,7 +32,7 @@ const dateSchema = yup
 
 // Schema principal
 const bodySchema = yup.object({
-  status: enumSchema(StateType).optional(),
+  status: yup.string().optional(),
   type: enumSchema(TypeRequest).defined(),
   startDate: dateSchema.defined().label('startDate'),
   endDate: dateSchema.defined().label('endDate'),

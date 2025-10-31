@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { ListAllWithSearchTime } from '@modules/Record/services/listRecordService';
+import { ListAllWithSearchTime } from '@modules/Record/useCase/ListRecordUseCase/ListRecordService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import RecordController from '@modules/Record/infra/http/controller/RecordController';
@@ -23,7 +23,7 @@ describe('RecordController - ListAllWithSearchTime', () => {
 
   beforeEach(() => {
     listAllWithSearchTimeMock = {
-      execute: jest.fn()
+      execute: jest.fn(),
     } as unknown as jest.Mocked<ListAllWithSearchTime>;
 
     // configura o container.resolve para retornar nosso mock
@@ -35,13 +35,13 @@ describe('RecordController - ListAllWithSearchTime', () => {
         endDate: '2023-12-31',
         status: 'normal',
         type: 'boleto',
-        bank: 'BANCO_DO_BRASIL'
-      }
+        bank: 'BANCO_DO_BRASIL',
+      },
     };
 
     response = {
       status: jest.fn().mockReturnThis(),
-      json: jest.fn()
+      json: jest.fn(),
     };
   });
 
@@ -49,13 +49,13 @@ describe('RecordController - ListAllWithSearchTime', () => {
     const fakeRecords: IRecord[] = [];
     fakeRecords.push({
       id: 1266,
-      type: "consulta",
+      type: 'consulta',
       codeResponse: 200,
-      status: "ativo",
+      status: 'ativo',
       timeRequest: 203,
       payloadResponse: {},
-      detailing: "Success",
-      responseStatus: "Normal",
+      detailing: 'Success',
+      responseStatus: 'Normal',
       year: 2025,
       month: 7,
       day: 24,
@@ -65,15 +65,18 @@ describe('RecordController - ListAllWithSearchTime', () => {
       dateCreated: new Date(),
       bank: {
         id: 1,
-        name: "BANCODOBRASIL_V2",
-        bankCode: 1
-      }
+        name: 'BANCODOBRASIL_V2',
+        bankCode: 1,
+      },
     });
 
     listAllWithSearchTimeMock.execute.mockResolvedValue(fakeRecords);
 
     const controller = new RecordController();
-    await controller.ListAllWithSearchTime(request as Request, response as Response);
+    await controller.ListAllWithSearchTime(
+      request as Request,
+      response as Response
+    );
 
     expect(container.resolve).toHaveBeenCalledWith(ListAllWithSearchTime);
     expect(listAllWithSearchTimeMock.execute).toHaveBeenCalledWith(

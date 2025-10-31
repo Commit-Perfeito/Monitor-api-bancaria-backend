@@ -1,19 +1,18 @@
 import { container, inject, injectable } from 'tsyringe';
-import IRecordRepository from '../domain/repositories/IRecordRepository';
-import { FindBankByName } from '../../Bank/services/FindBankByNameService';
-import { parseDate } from '../../../shared/utils/ParseDate';
-import { IRecord } from '../domain/models/IRecord';
+import IRecordRepository from '../../domain/repositories/IRecordRepository';
+import { parseDate } from '../../../../shared/utils/ParseDate';
+import { IRecord } from '../../domain/models/IRecord';
 import AppError from '@shared/errors/AppError';
+import IBankRepository from '@modules/Bank/domain/repositories/IBankRepository';
 
 @injectable()
 export class ListAllWithSearchTime {
-
   constructor(
     @inject('RecordRepository')
     private RecordRepository: IRecordRepository,
-    @inject(FindBankByName)
-    private FindBankByName: FindBankByName,
-  ) { }
+    @inject('bankRepository')
+    private bankRepository: IBankRepository
+  ) {}
 
   async execute(
     bank: string,
@@ -23,9 +22,14 @@ export class ListAllWithSearchTime {
     status: string
   ): Promise<IRecord[]> {
     {
+      console.log(type);
 
       // Busca o banco pelo nome para obter o ID
-      const banco = await this.FindBankByName.execute(bank);
+      const banco = await this.bankRepository.listBankByName(bank);
+
+      if (!banco) {
+        throw new AppError('Banco não existe');
+      }
       const bankId = banco.id;
 
       // Converte strings de data para objetos Date no formato interno esperado
@@ -40,12 +44,12 @@ export class ListAllWithSearchTime {
         startDate,
         endDate,
         status
-      )
+      );
 
       // Se não houver registros, retorna array vazio
       if (!Array.isArray(result) || result.length === 0) return [];
 
-      return result
+      return result;
       // Formata os dados para retorno à API
       // return result.map((record) => ({
       //   Tipo: record.type,

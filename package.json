@@ -1,10 +1,10 @@
 {
-  "name": "monitor-api-bancaria-backend",
+  "name": "monitor-api-bancaria",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "up": "docker-compose up",
-    "build": "tsup src && node dist/server.js",
+    "build": "tsup src",
     "dev": "docker start monitor-db && nodemon --exec \"ts-node -r tsconfig-paths/register\" ./src/shared/infra/http/server.ts",
     "test": "jest",
     "migration:create": "typeorm-ts-node-commonjs migration:create src/shared/database/migrations/default",

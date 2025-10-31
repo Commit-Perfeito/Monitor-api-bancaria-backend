@@ -27,6 +27,7 @@ export class RecordRepository implements IRecordRepository {
     end: Timestamp,
     status?: string
   ): Promise<Record[] | null> {
+    console.log(type);
     const query = this.ormRepository
       .createQueryBuilder('records')
       .where('records.type = :type', { type })
