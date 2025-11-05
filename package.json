@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "up": "docker-compose up",
+    "up": "docker-compose up --build",
+    "down": "docker compose down -v",
     "build": "tsup src",
     "dev": "docker start monitor-db && nodemon --exec \"ts-node -r tsconfig-paths/register\" ./src/shared/infra/http/server.ts",
+    "start": "node dist/shared/infra/http/server.js",
     "test": "jest",
     "migration:create": "typeorm-ts-node-commonjs migration:create src/shared/database/migrations/default",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/shared/database/migrations/default",
