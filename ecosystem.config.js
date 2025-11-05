@@ -10,7 +10,6 @@ module.exports = {
       error: './logs/error.log', // Caminho para logs de erro
 
       // Combina todos os logs de instâncias clusterizadas em um só arquivo
-
       merge_logs: true,
 
       // Adiciona um timestamp (data/hora) em cada linha do log
