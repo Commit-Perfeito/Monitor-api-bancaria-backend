@@ -4,29 +4,23 @@ services:
     container_name: monitor-db
     restart: always
     environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: monitor_web
+      POSTGRES_USER: 'docker'
+      POSTGRES_PASSWORD: '123456'
+      POSTGRES_DB: 'monitor-web'
     ports:
       - '5432:5432'
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'docker']
-      interval: 5s
-      retries: 5
 
-  app:
-    build: .
-    container_name: monitor_node
-    ports:
-      - '3001:3001'
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: always
+  # app:
+  #   build: .
+  #   container_name: monitor_node
+  #   ports:
+  #     - '3001:3001'
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   restart: always
 
 volumes:
   pgdata:

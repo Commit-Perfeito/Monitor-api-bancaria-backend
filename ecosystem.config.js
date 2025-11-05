@@ -8,6 +8,9 @@ module.exports = {
       // --- Configuração de Logs ---
       output: './logs/out.log', // Caminho para logs de saída padrão
       error: './logs/error.log', // Caminho para logs de erro
+      //Evita loops infinitos de restart.
+      max_restarts: 5,
+      restart_delay: 3000,
 
       // Combina todos os logs de instâncias clusterizadas em um só arquivo
       merge_logs: true,
