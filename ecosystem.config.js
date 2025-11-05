@@ -3,7 +3,7 @@ module.exports = {
   apps: [
     {
       name: 'monitor-api',
-      script: 'dist/server.js', // ⚠️ MUDE ISSO: Qual é o seu script principal? (Ex: app.js, dist/index.js)
+      script: 'dist/shared/infra/http/server.js', // ⚠️ MUDE ISSO: Qual é o seu script principal? (Ex: app.js, dist/index.js)
 
       // --- Configuração de Logs ---
       output: './logs/out.log', // Caminho para logs de saída padrão
