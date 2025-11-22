@@ -16,6 +16,7 @@
     "paths": {
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],
+      "@config/*": ["src/config/*"]
     }
   },
   "exclude": ["node_modules", "dist"],

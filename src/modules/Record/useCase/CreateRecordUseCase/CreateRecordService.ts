@@ -8,6 +8,7 @@ import { IRecord } from '@modules/Record/domain/models/IRecord';
 import IRecordRepository from '@modules/Record/domain/repositories/IRecordRepository';
 import { ConvertResponseStatus } from '@shared/utils/ConvertResponseStatus';
 import { getHttpStatusText } from '@shared/utils/GetHttpStatusText';
+import { ICacheProvider } from '@shared/providers/cache/models/ICacheProvider';
 
 @injectable()
 export class CreateRecordService {
@@ -16,7 +17,9 @@ export class CreateRecordService {
     @inject('RecordRepository')
     private recordRepository: IRecordRepository,
     @inject('BankRepository')
-    private bankRepository: IBankRepository
+    private bankRepository: IBankRepository,
+    @inject('cacheProvider')
+    private cacheProvider: ICacheProvider
   ) {
     this.bankService = new FindbankById(this.bankRepository);
   }
@@ -52,6 +55,7 @@ export class CreateRecordService {
       detailing,
       responseTime
     );
+    await this.cacheProvider.invalidate('monitor-RECORD_LIST');
     return record;
   }
 }

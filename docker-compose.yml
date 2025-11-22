@@ -10,6 +10,14 @@ services:
     ports:
       - '5432:5432'
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --requirepass 123456
+    ports:
+      - '6379:6379'
+    restart: always
+
   # app:
   #   build: .
   #   container_name: monitor_node

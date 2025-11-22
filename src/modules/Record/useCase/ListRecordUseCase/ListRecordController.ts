@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ListAllWithSearchTime } from './ListRecordService';
 import { RecordRepository } from '@modules/Record/infra/typeorm/repository/RecordRepository';
 import { BankRepository } from '@modules/Bank/infra/typeorm/repository/BankRespository';
+import RedisCache from '@shared/providers/cache/implementations/RedisCache';
 
 export default class ListRecordController {
   public async ListAllWithSearchTime(
@@ -10,10 +11,11 @@ export default class ListRecordController {
   ): Promise<Response> {
     const recordRepository = new RecordRepository();
     const bankRepository = new BankRepository();
-
+    const redisCache = new RedisCache();
     const listRecords = new ListAllWithSearchTime(
       recordRepository,
-      bankRepository
+      bankRepository,
+      redisCache
     );
 
     const { startDate, endDate, status, type, bank } = request.body;
