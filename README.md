@@ -1,87 +1,77 @@
-<h1 align="center">Monitor Web Backend</h1>
+# Monitor API Bancária Backend
 
-# Sobre
+## Visão Geral
 
-O "monitor-web" é uma aplicação desenvolvida para facilitar ...
+O **Monitor API Bancária Backend** é uma aplicação Node.js desenvolvida para monitorar, registrar e consultar operações bancárias automatizadas, como registros e consultas de boletos, integrando múltiplos bancos. O sistema centraliza logs de requisições, permitindo análise de desempenho, status de respostas e rastreabilidade de operações financeiras.
 
-O sistema foi projetado para ser de fácil utilização e tem como propósito oferecer ...
+## Funcionalidades Principais
 
-# Tecnologias utilizadas
+- **Registro de Operações Bancárias:** Armazena informações detalhadas de cada requisição feita para APIs bancárias, incluindo tempo de resposta, status, payload e detalhamento.
+- **Consulta de Registros:** Permite buscar registros filtrando por banco, tipo de operação, status e intervalo de datas.
+- **Validação de Dados:** Utiliza validação robusta para garantir integridade dos dados recebidos e enviados.
+- **Documentação Interativa:** Disponibiliza documentação Swagger para facilitar a integração e testes das rotas.
+- **Seed e Migrations:** Automatiza a criação e popularização do banco de dados com bancos suportados.
+- **Rate Limiting:** Protege a API contra excesso de requisições.
+- **Tratamento Centralizado de Erros:** Garante respostas padronizadas e seguras para falhas esperadas e inesperadas.
+- **Cobertura de Testes:** Inclui testes unitários e de integração para garantir a confiabilidade do sistema.
 
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Docker](https://www.docker.com/)
-- [Postgres](https://www.postgresql.org/)
-- [Typeorm](https://typeorm.io/)
-- [Axios](https://axios-http.com/ptbr/docs/intro)
-- [Yup](https://www.npmjs.com/package/yup)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-- [Cors](https://www.npmjs.com/package/cors))
-- [Swagger](https://swagger.io/)
+## Tecnologias Utilizadas
 
-### Dependências de Desenvolvimento:
+- **Node.js** & **Express**: Plataforma e framework para construção da API.
+- **TypeScript**: Tipagem estática para maior robustez e produtividade.
+- **PostgreSQL** & **TypeORM**: Banco de dados relacional e ORM para modelagem e persistência.
+- **Docker**: Containerização do banco de dados para facilitar o setup e deploy.
+- **Yup**: Validação de dados.
+- **Swagger**: Documentação automática e interativa da API.
+- **Jest** & **Supertest**: Testes automatizados.
+- **ESLint** & **Prettier**: Padronização e formatação de código.
+- **Rate Limiter Flexible**: Controle de requisições para evitar abusos.
 
-- [@eslint/js](https://www.npmjs.com/package/@eslint/js)
-- [@types/axios](https://www.npmjs.com/package/@types/axios)
-- [@types/cors](https://www.npmjs.com/package/@types/cors)
-- [@types/express](https://www.npmjs.com/package/@types/express)
-- [@types/node](https://www.npmjs.com/package/@types/node)
-- [eslint](https://eslint.org/)
-- [eslint-config-prettier](https://www.npmjs.com/package/eslint-config-prettier)
-- [eslint-plugin-prettier](https://www.npmjs.com/package/eslint-plugin-prettier)
-- [globals](https://www.npmjs.com/package/globals)
-- [nodemon](https://www.npmjs.com/package/nodemon)
-- [ts-node-dev](https://www.npmjs.com/package/ts-node-dev)
-- [typescript](https://www.typescriptlang.org/)
-- [typescript-eslint](https://www.npmjs.com/package/typescript-eslint)
+## Boas Práticas Adotadas
 
-# Executando a aplicação
+- **Injeção de Dependências:** Uso do `tsyringe` para facilitar testes e desacoplamento.
+- **Separação de Camadas:** Domínio, infraestrutura, validações e utilitários bem organizados.
+- **Validação Estruturada:** Middleware de validação para todas as rotas críticas.
+- **Tratamento de Erros Centralizado:** Todas as exceções são capturadas e respondidas de forma padronizada.
+- **Cobertura de Testes:** Testes unitários e de integração para garantir estabilidade.
+- **Documentação Atualizada:** Swagger sempre alinhado com as rotas e contratos da API.
+- **Padronização de Código:** ESLint e Prettier integrados ao fluxo de desenvolvimento.
+- **Uso de Variáveis de Ambiente:** Configurações sensíveis e de ambiente isoladas do código-fonte.
 
-Para executar esta aplicação, siga os seguintes passos:
+## Como Executar
 
-- Clone o repositório:
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/Projetos-Unicv/Monitor-api-bancaria-backend/
+   cd Monitor-api-bancaria-backend
+   ```
 
-  ```bash
-  git clone https://github.com/Projetos-Unicv/Monitor-api-bancaria-backend/
+2. **Configure o arquivo `.env`** com base no `env_file.txt`.
 
-  ```
+3. **Suba o banco de dados com Docker:**
+   ```bash
+   yarn up
+   ```
 
-- Com o repositório clonado, acesse o diretório raiz do projeto e digite code . para abrir o projeto no VS Code.
+4. **Instale as dependências:**
+   ```bash
+   yarn
+   ```
 
-- Crie um arquivo .env utilizando como base o modelo fornecido no arquivo env_file.
+5. **Execute as migrations e seeds:**
+   ```bash
+   yarn migration:run
+   yarn seed:run
+   ```
 
-- Crie a imagem do projeto e em seguida os containers, de acordo com as configurações fornecidas no arquivo docker-compose.yml, executando o seguinte comando:
+6. **Inicie a aplicação:**
+   ```bash
+   yarn dev
+   ```
 
-  ```bash
-  # Criar a imagem, containers e subir
-  yarn up
-  ```
+7. **Acesse a documentação:**  
+   [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
-- Instale as dependências do projeto:
+---
 
-  ```bash
-  # Baixar dependências
-  yarn
-
-  ```
-
-- Execute comando o migration para criar as tabelas do banco:
-  ```bash
-  # Gerar tabelas
-  yarn migration:run
-  ```
-- Execute comando o seed para popular os bancos:
-  ```bash
-  # Gerar dados dos bancos
-  yarn seed:run
-  ```
-- Após a conclusão da instalação das dependências, execute a aplicação com o seguinte comando:
-
-  ```bash
-  # Executar a aplicação
-  yarn dev
-  ```
-
-Com estes passos concluídos, a aplicação estará em execução e pronta para ser utilizada.
+> Para mais detalhes sobre endpoints, exemplos de uso e estrutura dos dados, consulte a documentação Swagger integrada.

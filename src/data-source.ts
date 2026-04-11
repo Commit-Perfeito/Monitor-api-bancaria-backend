@@ -1,14 +1,13 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-import { dirname } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
-import { Bank } from './server/shared/database/entities/Bank';
-import { Record } from './server/shared/database/entities/Record';
-import { ScriptSeeder } from './server/shared/database/script/ScriptSeeder';
+import { ScriptSeeder } from './shared/infra/typeorm/script/ScriptSeeder';
+import { Bank } from './modules/Bank/infra/typeorm/entities/Bank';
+import { Record } from './modules/Record/infra/typeorm/entities/Record';
 
 const port = process.env.DB_PORT as number | undefined; // porta do banco de dados do .env
-
+console.log(`${__dirname}/shared/infra/typeorm/migrations/*.{ts,js}`);
 // parametros para a seed e migration do banco de dados
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
@@ -19,7 +18,8 @@ const options: DataSourceOptions & SeederOptions = {
   database: process.env.DB_NAME,
   synchronize: false, // Desative synchronize para gerar migrações corretamente
   entities: [Bank, Record],
-  migrations: [`${__dirname}/server/shared/database/migrations/*.{ts,js}`], //local de migrations
+  // entities: [`${__dirname}/modules/**/infra/typeorm/entities/*.{ts,js}`],
+  migrations: [`${__dirname}/shared/infra/typeorm/migrations/*.{ts,js}`], //local de migrations
   migrationsTableName: 'migrations', // tabela das migrations
   seeds: [ScriptSeeder], // local da seed
 };

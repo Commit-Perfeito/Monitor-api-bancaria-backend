@@ -1,8 +1,7 @@
-version: '3.8'
 services:
   db:
     image: postgres:14
-    container_name: postgres-db
+    container_name: monitor-db
     restart: always
     environment:
       POSTGRES_USER: 'docker'
@@ -10,9 +9,26 @@ services:
       POSTGRES_DB: 'monitor-web'
     ports:
       - '5432:5432'
-# Descomente a linha abaixo para persistir dados
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
 
-# volumes:
-#   pgdata:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --requirepass 123456
+    ports:
+      - '6379:6379'
+    restart: always
+
+  # app:
+  #   build: .
+  #   container_name: monitor_node
+  #   ports:
+  #     - '3001:3001'
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   restart: always
+
+volumes:
+  pgdata:
