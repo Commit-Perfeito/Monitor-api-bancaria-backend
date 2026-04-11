@@ -3,7 +3,7 @@ import IBankRepository from '../../modules/Bank/domain/repositories/IBankReposit
 import { BankRepository } from '../../modules/Bank/infra/typeorm/repository/BankRespository';
 import IRecordRepository from '../../modules/Record/domain/repositories/IRecordRepository';
 import { RecordRepository } from '../../modules/Record/infra/typeorm/repository/RecordRepository';
-import RequestAllService from '@modules/api/services/RequestAllService';
+import { RequestAllService } from '@modules/api/useCases/requestAll/requestAll.service';
 import { ICacheProvider } from '@shared/providers/cache/models/ICacheProvider';
 import RedisCache from '@shared/providers/cache/implementations/RedisCache';
 

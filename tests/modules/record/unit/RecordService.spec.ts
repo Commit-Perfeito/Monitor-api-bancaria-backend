@@ -2,15 +2,15 @@ import 'reflect-metadata';
 import FakeRecordRepository from '../repositories/FakeRecordRepository';
 import FakeBankRepository from '../../bank/repositories/FakeBankRepository';
 import AppError from '@shared/errors/AppError';
-import { CreateRecordService } from '@modules/Record/services/CreateRecordService';
-import { ListAllWithSearchTime } from '@modules/Record/useCase/ListRecordUseCase/ListRecordService';
+import { CreateRecordService } from '@modules/Record/useCases/createRecord/createRecord.service';
+import { ListRecordService } from '@modules/Record/useCases/listRecord/listRecord.service';
 import { IBank } from '@modules/Bank/domain/models/IBank';
 
 let create: CreateRecordService;
-let listAll: ListAllWithSearchTime;
+let listAll: ListRecordService;
 let fakeRecordRepository: FakeRecordRepository;
 let fakeBankRepository: FakeBankRepository;
-jest.mock('src/modules/Bank/services/FindBankByNameService'); // mock automático
+jest.mock('src/modules/Bank/useCases/findBankByName/findBankByName.service'); // mock automático
 
 describe('get bank By name', () => {
   beforeEach(() => {
@@ -99,7 +99,7 @@ describe('List All With Search Time', () => {
       execute: jest.fn().mockResolvedValue(bank),
     };
 
-    listAll = new ListAllWithSearchTime(
+    listAll = new ListRecordService(
       fakeRecordRepository,
       mockFindBankByName as any
     );

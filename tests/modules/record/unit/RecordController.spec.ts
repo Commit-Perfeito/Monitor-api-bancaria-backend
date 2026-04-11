@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import { ListAllWithSearchTime } from '@modules/Record/useCase/ListRecordUseCase/ListRecordService';
+import { ListRecordService } from '@modules/Record/useCases/listRecord/listRecord.service';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import RecordController from '@modules/Record/infra/http/controller/RecordController';
+import { ListRecordController } from '@modules/Record/useCases/listRecord/listRecord.controller';
 import { IRecord } from '@modules/Record/domain/models/IRecord';
 
 jest.mock('tsyringe', () => {
@@ -19,12 +19,12 @@ jest.mock('tsyringe', () => {
 describe('RecordController - ListAllWithSearchTime', () => {
   let request: Partial<Request>;
   let response: Partial<Response>;
-  let listAllWithSearchTimeMock: jest.Mocked<ListAllWithSearchTime>;
+  let listAllWithSearchTimeMock: jest.Mocked<ListRecordService>;
 
   beforeEach(() => {
     listAllWithSearchTimeMock = {
       execute: jest.fn(),
-    } as unknown as jest.Mocked<ListAllWithSearchTime>;
+    } as unknown as jest.Mocked<ListRecordService>;
 
     // configura o container.resolve para retornar nosso mock
     (container.resolve as jest.Mock).mockReturnValue(listAllWithSearchTimeMock);
@@ -72,13 +72,10 @@ describe('RecordController - ListAllWithSearchTime', () => {
 
     listAllWithSearchTimeMock.execute.mockResolvedValue(fakeRecords);
 
-    const controller = new RecordController();
-    await controller.ListAllWithSearchTime(
-      request as Request,
-      response as Response
-    );
+    const controller = new ListRecordController();
+    await controller.handle(request as Request, response as Response);
 
-    expect(container.resolve).toHaveBeenCalledWith(ListAllWithSearchTime);
+    expect(container.resolve).toHaveBeenCalledWith(ListRecordService);
     expect(listAllWithSearchTimeMock.execute).toHaveBeenCalledWith(
       'BANCO_DO_BRASIL',
       'boleto',
