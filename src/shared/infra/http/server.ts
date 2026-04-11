@@ -2,9 +2,9 @@
 import { app } from './app';
 import { AppDataSource } from '../../../data-source';
 import { container } from 'tsyringe';
-import RequestbackgroundAPIService from '@modules/api/services/RequestApiBackgrounfService';
+import { RequestApiBackgroundService } from '@modules/api/useCases/requestApiBackground/requestApiBackground.service';
 
-const Requestbackground = container.resolve(RequestbackgroundAPIService);
+const Requestbackground = container.resolve(RequestApiBackgroundService);
 
 AppDataSource.initialize()
   .then(() => {

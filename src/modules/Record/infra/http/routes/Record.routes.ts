@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import { listRecordValidation } from '../validators/listRecordsValidation';
-import ListRecordController from '@modules/Record/useCase/ListRecordUseCase/ListRecordController';
+import { ListRecordController } from '@modules/Record/useCases/listRecord/listRecord.controller';
 
 export const recordRouter = Router();
 
-const controller = new ListRecordController();
+const listRecordController = new ListRecordController();
 
 recordRouter.get('/');
 
 recordRouter.post(
   '/list-records',
   listRecordValidation,
-  controller.ListAllWithSearchTime
+  listRecordController.handle
 );

@@ -1,15 +1,11 @@
 import { Router } from 'express';
-import BankController from '../controller/BankController';
+import { ListAllBanksController } from '@modules/Bank/useCases/listAllBanks/listAllBanks.controller';
+import { FindBankByNameController } from '@modules/Bank/useCases/findBankByName/findBankByName.controller';
 
 export const BankRouter = Router();
-const controller = new BankController()
 
+const listAllBanksController = new ListAllBanksController();
+const findBankByNameController = new FindBankByNameController();
 
-BankRouter.get(
-  '/',
-  controller.ListAllBanks
-);
-BankRouter.get(
-  '/:name',
-  controller.FindByName
-);
+BankRouter.get('/', listAllBanksController.handle);
+BankRouter.get('/:name', findBankByNameController.handle);

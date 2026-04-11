@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
 import { ApiBodyInterface } from '../interfaces/ApiBodyInterface';
 import { ICreateRecord } from '../../../Record/domain/models/ICreateRecord';
-import { FindBankByName } from '../../../Bank/services/FindBankByNameService';
+import { FindBankByNameService } from '../../../Bank/useCases/findBankByName/findBankByName.service';
 import { TypeRequest } from '../../../Record/domain/enums/TypeRequest';
 
 // Função para converter o cedente em objeto para salvar no banco de dados
@@ -9,7 +9,7 @@ export const ConvertCedenteForRecord = async (
   corpoRegistro: ApiBodyInterface,
   banco: string
 ): Promise<ICreateRecord> => {
-  const bankService = container.resolve(FindBankByName);
+  const bankService = container.resolve(FindBankByNameService);
   const bank = await bankService.execute(banco);
 
   const type =

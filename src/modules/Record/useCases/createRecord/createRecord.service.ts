@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import { PositiveCodeRequest } from '@modules/api/domain/enums/PositiveCodeRequest';
 import IBankRepository from '@modules/Bank/domain/repositories/IBankRepository';
-import { FindbankById } from '@modules/Bank/services/FindbankByIdService';
+import { FindBankByIdService } from '@modules/Bank/useCases/findBankById/findBankById.service';
 import { ICreateRecord } from '@modules/Record/domain/models/ICreateRecord';
 import { IRecord } from '@modules/Record/domain/models/IRecord';
 import IRecordRepository from '@modules/Record/domain/repositories/IRecordRepository';
@@ -12,7 +12,7 @@ import { ICacheProvider } from '@shared/providers/cache/models/ICacheProvider';
 
 @injectable()
 export class CreateRecordService {
-  private bankService: FindbankById;
+  private bankService: FindBankByIdService;
   constructor(
     @inject('RecordRepository')
     private recordRepository: IRecordRepository,
@@ -21,7 +21,7 @@ export class CreateRecordService {
     @inject('cacheProvider')
     private cacheProvider: ICacheProvider
   ) {
-    this.bankService = new FindbankById(this.bankRepository);
+    this.bankService = new FindBankByIdService(this.bankRepository);
   }
   async execute({
     timeReq,
